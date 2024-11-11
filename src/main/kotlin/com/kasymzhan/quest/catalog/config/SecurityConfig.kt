@@ -16,9 +16,9 @@ class SecurityConfig(val jwtAuthenticationFilter: JwtAuthenticationFilter) {
         http
             .csrf { it.disable() }
             .authorizeHttpRequests {
-                it.requestMatchers("/quests").hasRole("USER")
-                    .requestMatchers("/quests/add", "/quests/get/all").hasRole("ADMIN")
-                    .anyRequest().fullyAuthenticated()
+                it.requestMatchers("/quests/add", "/quests/get/all").hasRole("ADMIN")
+                    .requestMatchers("/quests").hasAnyRole("ADMIN", "USER")
+                    .anyRequest().authenticated()
             }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
