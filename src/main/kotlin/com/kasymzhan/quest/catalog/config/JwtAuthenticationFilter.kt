@@ -18,7 +18,7 @@ class JwtAuthenticationFilter(private val tokenService: JwtTokenService) : OnceP
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        val token = tryParseToken(request)
+        val token = tokenService.tryParseToken(request)
         if (tokenService.isValid(token)) {
             val claims = tokenService.getAllClaims(token!!)
             val roles = token.getRoles()
@@ -28,20 +28,6 @@ class JwtAuthenticationFilter(private val tokenService: JwtTokenService) : OnceP
         }
         filterChain.doFilter(request, response)
     }
-
-    private fun tryParseToken(request: HttpServletRequest): String? {
-        val authHeader: String? = request.getHeader("Authorization")
-        if (!authHeader.containsToken())
-            return null
-        val token = authHeader!!.extractToken()
-        return token
-    }
-
-    private fun String?.containsToken() =
-        this != null && this.startsWith("Bearer ")
-
-    private fun String.extractToken(): String =
-        this.substringAfter("Bearer ")
 
     private fun String.getRoles(): List<SimpleGrantedAuthority> {
         val claims = tokenService.getAllClaims(this)
