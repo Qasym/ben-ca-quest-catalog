@@ -81,5 +81,6 @@ class QuestCatalogController(
             duplication = this.duplication,
             streak = this.streak,
             reward = reward,
+            autoClaim = this.autoClaim,
         )
 }

@@ -6,5 +6,6 @@ data class QuestResponse(
     val description: String,
     val duplication: Int,
     val streak: Int,
+    val autoClaim: Boolean,
     val reward: QuestReward
 )
