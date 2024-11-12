@@ -75,6 +75,7 @@ class QuestCatalogController(
 
     private fun Quest.toQuestResponse(reward: QuestReward): QuestResponse =
         QuestResponse(
+            id = this.id.toString(),
             name = this.name,
             description = this.description,
             duplication = this.duplication,
